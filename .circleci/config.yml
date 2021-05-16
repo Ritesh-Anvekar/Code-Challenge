@@ -38,28 +38,28 @@ jobs:
 
       # Using standard maven build phase
       - run:
-          name: [Maven] Build
+          name: Maven] Build
           command: mvn -B -DskipTests clean package
 
       # Run tests...
       - run:
-          name: [Maven] Test
+          name: Maven] Test
           command: mvn test
 
       # Extract and install Allure
       - run:
-          name: [Allure] Archive Download
+          name: Allure] Archive Download
           command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.allure-version >>/allure-commandline-<< parameters.allure-version >>.zip -o /tmp/allure.zip
       - run:
-          name: [Allure] Archive Extraction
+          name: Allure] Archive Extraction
           command: unzip /tmp/allure.zip
       - run:
-          name: [Allure] Installation
+          name: Allure] Installation
           command: sudo mv allure-<< parameters.allure-version >> /usr/local/share/allure
 
       # Generate Allure Reports
       - run:
-          name: [Allure] Report Generation (<< parameters.allure-results-path >> -> << parameters.allure-target-path >>)
+          name: Allure] Report Generation (<< parameters.allure-results-path >> -> << parameters.allure-target-path >>)
           command: |
             allure generate \
               --config << parameters.allure-configuration-path >> \
