@@ -25,7 +25,7 @@ jobs:
       allure-results-path:
         description: Path to directory with test results
         type: string
-        default: allure-results
+        default: target/allure-results
       allure-artifact-path:
         description: Path that will be used when storing result as artifact
         type: string
