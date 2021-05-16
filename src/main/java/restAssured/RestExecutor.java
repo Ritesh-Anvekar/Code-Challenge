@@ -1,17 +1,17 @@
 package restAssured;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class RestExecutor {
 
     private static Logger logger = LogManager.getLogger(RestExecutor.class);
-
     private Response mResponse = null;
     protected RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
     private static final String BASE_URI = "https://jsonplaceholder.typicode.com";
@@ -24,7 +24,7 @@ public class RestExecutor {
     protected Response executeRequest(RequestSpecification pRequestSpec, String pMethod) {
 
         try {
-            RequestSender requestSender = RestAssured.given(pRequestSpec).when();
+            RequestSender requestSender = RestAssured.given(pRequestSpec).filter(new AllureRestAssured()).when();
             switch (pMethod) {
 
                 case "GET":

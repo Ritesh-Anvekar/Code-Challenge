@@ -4,11 +4,9 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import restAssured.RestExecutor;
-
-
 import java.util.List;
 
-public class User extends RestExecutor {
+class User extends RestExecutor {
 
     private static Logger logger = LogManager.getLogger(User.class);
 
@@ -22,18 +20,18 @@ public class User extends RestExecutor {
     private static final String USER_WEBSITE = "website";
     private static final String USER_COMPANY = "company";
 
-    public User(){
+    User(){
         super();
         this.requestSpecBuilder.setBasePath(USER_BASEPATH);
     }
 
-    public Response fetchUserDetails(String sUserName) {
+    Response fetchUserDetails(String sUserName) {
         logger.debug("-- fetchUserDetails() --");
         requestSpecBuilder.addQueryParam(USER_USERNAME, sUserName);
         return this.executeRequest(requestSpecBuilder.build(), "GET");
     }
 
-    public List<Integer> fetchUserId(Response responseUserDetails) {
+    List<Integer> fetchUserId(Response responseUserDetails) {
         logger.debug("-- fetchUserId() --");
         return responseUserDetails.jsonPath().get(USER_ID);
     }
