@@ -105,7 +105,7 @@
                 <artifactId>allure-maven</artifactId>
                 <version>2.10.0</version>
                 <configuration>
-                    <reportDirectory>${project.basedir}\target\allure-reports</reportDirectory>
+                    <reportDirectory>${project.basedir}\target\allure-report</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>

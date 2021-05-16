@@ -3,31 +3,75 @@
 version: 2.1
 
 jobs:
-  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+
   build-and-test:  
-    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # Be sure to update the Docker image tag below to openjdk version of your application.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
+    # https://circleci.com/developer/images/image/cimg/openjdk
     docker:
       - image: cimg/openjdk:8.0
+
+    parameters:
+      allure-version:
+        description: Allure version to use
+        type: string
+        default: 2.13.1
+      allure-configuration-path:
+        description: Path to Allure configuration, uses default one if omitted
+        type: string
+        default: /usr/local/share/allure/config/allure.yml
+      allure-target-path:
+        description: Path for report directory
+        type: string
+        default: allure-report
+      allure-results-path:
+        description: Path to directory with test results
+        type: string
+        default: allure-results
+      allure-artifact-path:
+        description: Path that will be used when storing result as artifact
+        type: string
+        default: Report/Allure
+
     steps:
-      # Checkout the code as the first step.
+
+      # Checkout the code
       - checkout
-      # Use mvn clean and package as the standard maven build phase
+
+      # Using standard maven build phase
       - run:
-          name: Build
+          name: [Maven] Build
           command: mvn -B -DskipTests clean package
-      # Then run your tests!
+
+      # Run tests...
       - run:
-          name: Test
+          name: [Maven] Test
           command: mvn test
 
+      # Extract and install Allure
+      - run:
+          name: [Allure] Archive Download
+          command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.allure-version >>/allure-commandline-<< parameters.allure-version >>.zip -o /tmp/allure.zip
+      - run:
+          name: [Allure] Archive Extraction
+          command: unzip /tmp/allure.zip
+      - run:
+          name: [Allure] Installation
+          command: sudo mv allure-<< parameters.allure-version >> /usr/local/share/allure
+
+      # Generate Allure Reports
+      - run:
+          name: [Allure] Report Generation (<< parameters.allure-results-path >> -> << parameters.allure-target-path >>)
+          command: |
+            allure generate \
+              --config << parameters.allure-configuration-path >> \
+              --report-dir << parameters.allure-target-path >> \ << parameters.allure-results-path >>
+
+      # Store Reports [Allure]
+      - store_artifacts:
+          path: << parameters.allure-target-path >>
+          destination: << parameters.allure-artifact-path >>
+
 workflows:
-  # Below is the definition of your workflow.
-  # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
-  # CircleCI will run this workflow on every commit.
-  # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
+  # https://circleci.com/docs/2.0/configuration-reference/#workflows
   sample: 
     jobs:
       - build-and-test
