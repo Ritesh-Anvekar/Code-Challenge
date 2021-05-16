@@ -9,7 +9,6 @@ import java.util.List;
 class User extends RestExecutor {
 
     private static Logger logger = LogManager.getLogger(User.class);
-
     private static final String USER_BASEPATH = "/users";
     private static final String USER_ID = "id";
     private static final String USER_NAME = "name";

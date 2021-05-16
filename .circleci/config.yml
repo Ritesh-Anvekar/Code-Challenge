@@ -32,7 +32,6 @@ jobs:
         default: Report/Allure
 
     steps:
-
       # Checkout the code
       - checkout
 
@@ -86,6 +85,6 @@ jobs:
 
 workflows:
   # https://circleci.com/docs/2.0/configuration-reference/#workflows
-  sample: 
-    jobs:
-      - build-and-test
+  CodeChallenge:
+           jobs:
+              - build-and-test
