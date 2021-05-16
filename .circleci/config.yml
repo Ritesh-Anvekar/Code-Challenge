@@ -64,7 +64,7 @@ jobs:
 
       # Generate Allure Reports
       - run:
-          name: [Allure] Report Generation
+          name: Allure] Report Generation
           command: |
             allure generate \
               --config << parameters.allure-configuration-path >> \
