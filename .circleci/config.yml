@@ -57,6 +57,11 @@ jobs:
           name: Allure] Installation
           command: sudo mv allure-<< parameters.allure-version >> /usr/local/share/allure
 
+      # Symlink Allure Binaries
+      - run:
+          name: Allure] Binary Symlinking
+          command: sudo ln -s /usr/local/share/allure/bin/allure /usr/local/bin/allure
+
       # Generate Allure Reports
       - run:
           name: Allure] Report Generation (<< parameters.allure-results-path >> -> << parameters.allure-target-path >>)
