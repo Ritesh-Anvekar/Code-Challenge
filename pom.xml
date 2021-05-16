@@ -78,6 +78,12 @@
             <artifactId>allure-maven</artifactId>
             <version>2.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.cobertura</groupId>
+            <artifactId>cobertura</artifactId>
+            <version>2.1.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 
@@ -105,7 +111,19 @@
                 <artifactId>allure-maven</artifactId>
                 <version>2.10.0</version>
                 <configuration>
-                    <reportDirectory>${project.basedir}\target\allure-report</reportDirectory>
+                    <reportDirectory>target\allure-reports</reportDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <check/>
                 </configuration>
             </plugin>
         </plugins>

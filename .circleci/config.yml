@@ -43,8 +43,8 @@ jobs:
 
       # Run tests...
       - run:
-          name: Maven] Test
-          command: mvn test
+            name: Execute Test & Derive Code Coverage
+            command: mvn cobertura:cobertura
 
       # Extract and install Allure
       - run:
@@ -64,7 +64,7 @@ jobs:
 
       # Generate Allure Reports
       - run:
-          name: Allure] Report Generation (<< parameters.allure-results-path >> -> << parameters.allure-target-path >>)
+          name: [Allure] Report Generation
           command: |
             allure generate \
               --config << parameters.allure-configuration-path >> \
@@ -74,6 +74,15 @@ jobs:
       - store_artifacts:
           path: << parameters.allure-target-path >>
           destination: << parameters.allure-artifact-path >>
+
+      # Store Reports [SureFire]
+      - store_test_results:
+          path: target/surefire-reports
+
+      # Store Reports [Cobertura]
+      - store_artifacts:
+          path: target/site/cobertura/
+          destination: Report/Cobertura
 
 workflows:
   # https://circleci.com/docs/2.0/configuration-reference/#workflows
