@@ -9,25 +9,20 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 @Feature("JsonPlaceHolder > Comment > Validations")
-class Test_Comment {
+class Test_Comment extends Suite_SetUp {
 
-    private SoftAssertions softAssert;
     private static Logger logger = LogManager.getLogger(Test_Comment.class);
-
-    Test_Comment() {
-        this.softAssert = new SoftAssertions();;
-    }
+    private SoftAssertions softAssertions = new SoftAssertions();
 
     @Test
     @Description("Validate Email format for each Comments in the Post Id '81'")
     void IsEmailFormatCorrect() {
         logger.debug("-- IsEmailFormatCorrect() --");
-        Comment comment = new Comment();
-        List<String> sEmails = comment.fetchEmailsFromComments(comment.fetchComments(81));
+        List<String> sEmails = comment.extractEmailsFromComments(comment.fetchComments(81));
         logger.info("Starting to validate Email Format.....");
-        sEmails.forEach(sEmail ->
-                SoftAssertions.assertSoftly(softly ->
-                        softly.assertThat(comment.IsEmailFormatCorrect(sEmail)).isTrue()));
+
+        sEmails.forEach(sEmail->softAssertions.assertThat(comment.validateEmailFormat(sEmail)).isTrue());
+        softAssertions.assertAll();
     }
 
 }

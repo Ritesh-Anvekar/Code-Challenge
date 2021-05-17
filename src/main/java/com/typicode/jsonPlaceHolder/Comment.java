@@ -1,5 +1,6 @@
 package com.typicode.jsonPlaceHolder;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,22 +20,26 @@ class Comment extends RestExecutor {
 
     Comment(){
         super();
-        this.requestSpecBuilder.setBasePath(COMMENT_BASEPATH);
+        requestSpecBuilder.setBasePath(COMMENT_BASEPATH);
     }
 
+    @Step("Fetch Comments(as Response) for Post Id: {0}")
     Response fetchComments(Integer iPostId) {
         logger.debug("-- fetchComments() --");
+        requestSpecBuilder.removeQueryParam(COMMENT_POSTID);
         requestSpecBuilder.addQueryParam(COMMENT_POSTID, iPostId);
         return this.executeRequest(requestSpecBuilder.build(), "GET");
     }
 
-    List <String> fetchEmailsFromComments(Response responseComments) {
-        logger.debug("-- fetchEmailsFromComments() --");
+    @Step("Extract Emails from (Response)Comments : {0}")
+    List <String> extractEmailsFromComments(Response responseComments) {
+        logger.debug("-- extractEmailsFromComments() --");
         return responseComments.jsonPath().getList(COMMENT_EMAIL);
     }
 
-    boolean IsEmailFormatCorrect(String sEmail) {
-        logger.debug("-- IsEmailFormatCorrect() --");
+    @Step("Validate Format for Email : {0}")
+    boolean validateEmailFormat(String sEmail) {
+        logger.debug("-- validateEmailFormat() --");
         return util_Basic.regExPatternMatcher(sEmail,"^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
     }
 

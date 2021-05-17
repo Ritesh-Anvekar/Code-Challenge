@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 @Feature("JsonPlaceHolder > Post > Validations")
-class Test_Post {
+class Test_Post extends Suite_SetUp {
 
     private static Logger logger = LogManager.getLogger(Test_Post.class);
 
@@ -17,12 +17,10 @@ class Test_Post {
     @Description("Validate whether the User Id '9' has 10 Posts")
     void fetchPosts() {
         logger.debug("-- fetchPosts() --");
-        Post post = new Post();
-        List<Integer> iPostId = post.fetchPostIds(post.fetchPosts(9));
+        List<Integer> iPostId = post.extractPostIds(post.fetchPosts(9));
         SoftAssertions.assertSoftly(softly ->
                 softly.assertThat(iPostId.size())
                         .overridingErrorMessage("Expected 10 Post Ids, But we found '%s'", iPostId.size())
                         .isEqualTo(10));
     }
-
 }

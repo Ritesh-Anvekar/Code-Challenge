@@ -1,5 +1,6 @@
 package com.typicode.jsonPlaceHolder;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,17 +22,19 @@ class User extends RestExecutor {
 
     User(){
         super();
-        this.requestSpecBuilder.setBasePath(USER_BASEPATH);
+        requestSpecBuilder.setBasePath(USER_BASEPATH);
     }
 
+    @Step("Fetch User Details(as Response) for User Name: {0}")
     Response fetchUserDetails(String sUserName) {
         logger.debug("-- fetchUserDetails() --");
         requestSpecBuilder.addQueryParam(USER_USERNAME, sUserName);
         return this.executeRequest(requestSpecBuilder.build(), "GET");
     }
 
-    List<Integer> fetchUserId(Response responseUserDetails) {
-        logger.debug("-- fetchUserId() --");
+    @Step("Extract UserId from (Response)UserDetails : {0}")
+    List<Integer> extractUserIds(Response responseUserDetails) {
+        logger.debug("-- extractUserIds() --");
         return responseUserDetails.jsonPath().get(USER_ID);
     }
 

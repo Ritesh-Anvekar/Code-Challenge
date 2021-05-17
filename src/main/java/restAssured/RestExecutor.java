@@ -1,5 +1,6 @@
 package restAssured;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -8,19 +9,21 @@ import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import util.util_Properties;
 
 public class RestExecutor {
 
     private static Logger logger = LogManager.getLogger(RestExecutor.class);
     private Response mResponse = null;
     protected RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
-    private static final String BASE_URI = "https://jsonplaceholder.typicode.com";
 
 
     public RestExecutor() {
-        requestSpecBuilder.setBaseUri(BASE_URI);
+        String sAUT = System.getProperty("Application");
+        requestSpecBuilder.setBaseUri(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty(sAUT+"_URI"));
     }
 
+    @Step("RestExecutor: Perform {1} on Request {0}")
     protected Response executeRequest(RequestSpecification pRequestSpec, String pMethod) {
 
         try {

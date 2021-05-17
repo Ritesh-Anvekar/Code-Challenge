@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 @Feature("JsonPlaceHolder > User > Validations")
-class Test_User {
+class Test_User extends Suite_SetUp {
 
     private static Logger logger = LogManager.getLogger(Test_User.class);
-    private User user = new User();
 
     @Test
     @Description("Validate whether the User Name 'Delphine' is Unique")
     void validateUserIdUniqueness() {
         logger.debug("-- validateUserIdUniqueness() --");
-        List<Integer> iUserId = user.fetchUserId(user.fetchUserDetails("Delphine"));
+        List<Integer> iUserId = user.extractUserIds(user.fetchUserDetails("Delphine"));
         SoftAssertions.assertSoftly(softly ->
                 softly.assertThat(iUserId.size())
                         .overridingErrorMessage("Expected One User Id, But we found '%s'", iUserId.size())
