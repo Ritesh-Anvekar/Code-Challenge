@@ -11,19 +11,18 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import util.util_Properties;
 
-public class RestExecutor {
+public class RestExecutor extends RestDataHandler {
 
     private static Logger logger = LogManager.getLogger(RestExecutor.class);
     private Response mResponse = null;
-    protected RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
-
+    protected RequestSpecBuilder requestSpecBuilder;
 
     public RestExecutor() {
-        String sAUT = System.getProperty("Application");
-        requestSpecBuilder.setBaseUri(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty(sAUT+"_URI"));
+        requestSpecBuilder = new RequestSpecBuilder();
+        requestSpecBuilder.setBaseUri(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("URI"));
     }
 
-    @Step("RestExecutor: Perform {1} on Request {0}")
+    @Step("RestExecutor] Perform {1} on Request {0}")
     protected Response executeRequest(RequestSpecification pRequestSpec, String pMethod) {
 
         try {

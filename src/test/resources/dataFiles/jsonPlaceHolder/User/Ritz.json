@@ -1,0 +1,23 @@
+{
+  "id": 87,
+  "name": "Ritesh Anvekar",
+  "username": "Ritz",
+  "email": "alpha@bravo.com",
+  "address": {
+    "street": "Charlie Delta",
+    "suite": "Echo. 556",
+    "city": "Foxtrot",
+    "zipcode": "92998-3874",
+    "geo": {
+      "lat": "-37.3159",
+      "lng": "81.1496"
+    }
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "golf.org",
+  "company": {
+    "name": "Hotel-India",
+    "catchPhrase": "Juliett Kilo Lima Mike",
+    "bs": "November Oscar Papa"
+  }
+}

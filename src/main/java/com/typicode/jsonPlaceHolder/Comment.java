@@ -6,12 +6,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import restAssured.RestExecutor;
 import util.util_Basic;
+import util.util_Properties;
 import java.util.List;
 
 class Comment extends RestExecutor {
 
     private static Logger logger = LogManager.getLogger(Comment.class);
-    private static final String COMMENT_BASEPATH = "/comments";
     private static final String COMMENT_POSTID = "postId";
     private static final String COMMENT_ID = "id";
     private static final String COMMENT_NAME = "name";
@@ -20,7 +20,7 @@ class Comment extends RestExecutor {
 
     Comment(){
         super();
-        requestSpecBuilder.setBasePath(COMMENT_BASEPATH);
+        requestSpecBuilder.setBasePath(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_COMMENT"));
     }
 
     @Step("Fetch Comments(as Response) for Post Id: {0}")
