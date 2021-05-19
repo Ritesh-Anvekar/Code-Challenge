@@ -36,10 +36,12 @@ _____________
 ### Pipeline Job Status
 ![](images/circleCI_pipelineJobStatus.png)
 
+### Pipeline Job | Steps
+![](images/circleCI_pipelineJob_steps.png)
+
 #### > Test Report] Allure
 ![](images/circleCI_pipelineJob_reportAllure.png)
 
 #### > Code Coverage Report] Cobertura
 ![](images/circleCI_pipelineJob_reportCobertura.png)
-
 
