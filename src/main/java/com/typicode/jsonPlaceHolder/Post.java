@@ -10,19 +10,22 @@ import java.util.List;
 
 class Post extends RestExecutor {
 
-    private static Logger logger = LogManager.getLogger(Post.class);
+    // attributes
     private static final String POST_USERID = "userId";
     private static final String POST_ID = "id";
     private static final String POST_TITLE = "title";
     private static final String POST_BODY = "body";
 
+    private static Logger logger = LogManager.getLogger(Post.class);
+    private static String POST_BASE_PATH = util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_POST");
+
     Post(){
         super();
-        requestSpecBuilder.setBasePath(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_POST"));
+        requestSpecBuilder.setBasePath(POST_BASE_PATH);
     }
 
     @Step("Fetch Posts(as Response) for User Id : {0}")
-    Response fetchPosts(Integer iUserId) {
+    Response fetchPosts(String iUserId) {
         logger.debug("-- fetchPosts() --");
         requestSpecBuilder.addQueryParam(POST_USERID, iUserId);
         return this.executeRequest(requestSpecBuilder.build(), "GET");

@@ -3,28 +3,25 @@ package restAssured;
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import util.util_Properties;
+
 
 public class RestExecutor extends RestDataHandler {
 
     private static Logger logger = LogManager.getLogger(RestExecutor.class);
-    private Response mResponse = null;
-    protected RequestSpecBuilder requestSpecBuilder;
+    public Response mResponse;
 
     public RestExecutor() {
-        requestSpecBuilder = new RequestSpecBuilder();
-        requestSpecBuilder.setBaseUri(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("URI"));
+        super();
     }
 
     @Step("RestExecutor] Perform {1} on Request {0}")
     protected Response executeRequest(RequestSpecification pRequestSpec, String pMethod) {
-
+        logger.debug("-- [RestExecutor] executeRequest() --");
         try {
             RequestSender requestSender = RestAssured.given(pRequestSpec).filter(new AllureRestAssured()).when();
             switch (pMethod) {
@@ -49,9 +46,9 @@ public class RestExecutor extends RestDataHandler {
                     logger.info("Incorrect Argument !!");
             }
         } catch(Exception e){
-            logger.info("Encounter Exception : " + e.getMessage());
+            logger.info("Encountered Exception : " + e.getMessage());
+            e.printStackTrace();
         }
-
 
         return mResponse;
     }

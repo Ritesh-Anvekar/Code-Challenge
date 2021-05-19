@@ -19,6 +19,7 @@ public class util_Properties {
 
     @Step("Get Value for Property Name {0}")
     public static Properties loadProperties(String sPropName) {
+        logger.debug("-- [util_Properties] loadProperties() --");
         Properties properties = new Properties();
         URL url = ClassLoader.getSystemResource(sPropName);
         try{

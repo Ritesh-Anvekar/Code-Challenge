@@ -11,16 +11,19 @@ import java.util.List;
 
 class Comment extends RestExecutor {
 
-    private static Logger logger = LogManager.getLogger(Comment.class);
+    // attributes
     private static final String COMMENT_POSTID = "postId";
     private static final String COMMENT_ID = "id";
     private static final String COMMENT_NAME = "name";
     private static final String COMMENT_EMAIL = "email";
     private static final String COMMENT_BODY = "body";
 
+    private static Logger logger = LogManager.getLogger(Comment.class);
+    private static String COMMENT_BASE_PATH = util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_COMMENT");
+
     Comment(){
         super();
-        requestSpecBuilder.setBasePath(util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_COMMENT"));
+        requestSpecBuilder.setBasePath(COMMENT_BASE_PATH);
     }
 
     @Step("Fetch Comments(as Response) for Post Id: {0}")

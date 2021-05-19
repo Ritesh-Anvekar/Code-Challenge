@@ -19,6 +19,7 @@ public class util_Resources {
 
     @Step("Get Resource {0} as String")
     public static String getResource(String pResource) throws IOException {
+        logger.debug("-- [util_Resources] getResource() --");
         String lResource;
         ClassLoader classLoader = util_Resources.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(pResource);
