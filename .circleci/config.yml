@@ -37,51 +37,44 @@ jobs:
 
       # Using standard maven build phase
       - run:
-          name: Maven] Build
+          name: Maven] Build 
           command: mvn -B -DskipTests clean package
 
-      # Run tests...
+      # Run tests & derive code coverage via Cobertura
       - run:
-            name: Execute Test & Derive Code Coverage
+            name: Maven] Test & Derive Code Coverage [Cobertura Report] - https://<<pipeline.number>>-367763618-gh.circle-artifacts.com/0/Report/Cobertura/index.html
             command: mvn cobertura:cobertura
 
-      # Extract and install Allure
-      - run:
-          name: Allure] Archive Download
-          command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.allure-version >>/allure-commandline-<< parameters.allure-version >>.zip -o /tmp/allure.zip
-      - run:
-          name: Allure] Archive Extraction
-          command: unzip /tmp/allure.zip
-      - run:
-          name: Allure] Installation
-          command: sudo mv allure-<< parameters.allure-version >> /usr/local/share/allure
-
-      # Symlink Allure Binaries
-      - run:
-          name: Allure] Binary Symlinking
-          command: sudo ln -s /usr/local/share/allure/bin/allure /usr/local/bin/allure
+      # Store Reports [Cobertura]
+      - store_artifacts:
+          path: target/site/cobertura/
+          destination: Report/Cobertura
+          
+      # Store Reports [SureFire]
+      - store_test_results:
+          path: target/surefire-reports
 
       # Generate Allure Reports
       - run:
-          name: Allure] Report Generation
-          command: |
-            allure generate \
-              --config << parameters.allure-configuration-path >> \
-              --report-dir << parameters.allure-target-path >> \ << parameters.allure-results-path >>
+          name: Allure] Report Generation - https://<<pipeline.number>>-367763618-gh.circle-artifacts.com/0/Report/Allure/index.html
+          command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.allure-version >>/allure-commandline-<< parameters.allure-version >>.zip -o /tmp/allure.zip
+
+                   unzip /tmp/allure.zip
+
+                   sudo mv allure-<< parameters.allure-version >> /usr/local/share/allure
+
+                   sudo ln -s /usr/local/share/allure/bin/allure /usr/local/bin/allure
+                   
+                   allure generate \
+                   --config << parameters.allure-configuration-path >> \
+                   --report-dir << parameters.allure-target-path >> \ << parameters.allure-results-path >>
 
       # Store Reports [Allure]
       - store_artifacts:
           path: << parameters.allure-target-path >>
           destination: << parameters.allure-artifact-path >>
 
-      # Store Reports [SureFire]
-      - store_test_results:
-          path: target/surefire-reports
-
-      # Store Reports [Cobertura]
-      - store_artifacts:
-          path: target/site/cobertura/
-          destination: Report/Cobertura
+     
 
 workflows:
   # https://circleci.com/docs/2.0/configuration-reference/#workflows
