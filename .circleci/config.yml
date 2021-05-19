@@ -42,7 +42,7 @@ jobs:
 
       # Run tests & derive code coverage via Cobertura
       - run:
-            name: Maven] Test & Derive Code Coverage [Cobertura Report] - https://<<pipeline.number>>-367763618-gh.circle-artifacts.com/0/Report/Cobertura/index.html
+            name: Maven] Test & Derive Code Coverage [Cobertura Report] - https://<<pipeline.number>>-367946205-gh.circle-artifacts.com/0/Report/Cobertura/index.html
             command: mvn cobertura:cobertura
 
       # Store Reports [Cobertura]
@@ -56,7 +56,7 @@ jobs:
 
       # Generate Allure Reports
       - run:
-          name: Allure] Report Generation - https://<<pipeline.number>>-367763618-gh.circle-artifacts.com/0/Report/Allure/index.html
+          name: Allure] Report Generation - https://<<pipeline.number>>-367946205-gh.circle-artifacts.com/0/Report/Allure/index.html
           command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.allure-version >>/allure-commandline-<< parameters.allure-version >>.zip -o /tmp/allure.zip
 
                    unzip /tmp/allure.zip
