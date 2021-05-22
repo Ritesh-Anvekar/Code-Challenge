@@ -1,5 +1,6 @@
-package restAssured;
+package com.typicode.jsonplaceholder.rest;
 
+import com.typicode.jsonplaceholder.util.ExceptionUtil;
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -24,33 +25,11 @@ public class RestExecutor extends RestDataHandler {
         logger.debug("-- [RestExecutor] executeRequest() --");
         try {
             RequestSender requestSender = RestAssured.given(pRequestSpec).filter(new AllureRestAssured()).when();
-            switch (pMethod) {
-
-                case "GET":
-                    mResponse = requestSender.get();
-                    break;
-
-                case "POST":
-                    mResponse = requestSender.post();
-                    break;
-
-                case "PUT":
-                    mResponse = requestSender.put();
-                    break;
-
-                case "DELETE":
-                    mResponse = requestSender.delete();
-                    break;
-
-                default:
-                    logger.info("Incorrect Argument !!");
-            }
-        } catch(Exception e){
-            logger.info("Encountered Exception : " + e.getMessage());
-            e.printStackTrace();
+            mResponse = requestSender.request(pMethod);
+            return mResponse;
+        } catch(Exception Ex){
+            throw new ExceptionUtil("Request Execution Failed !! \nException Message:\n" +Ex, Ex);
         }
-
-        return mResponse;
     }
 
 }

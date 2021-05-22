@@ -1,12 +1,12 @@
-package com.typicode.jsonPlaceHolder;
+package com.typicode.jsonplaceholder.apis;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import restAssured.RestExecutor;
-import util.util_Basic;
-import util.util_Properties;
+import com.typicode.jsonplaceholder.rest.RestExecutor;
+import com.typicode.jsonplaceholder.util.BasicUtil;
+import com.typicode.jsonplaceholder.util.PropertiesUtil;
 import java.util.List;
 
 class Comment extends RestExecutor {
@@ -19,7 +19,7 @@ class Comment extends RestExecutor {
     private static final String COMMENT_BODY = "body";
 
     private static Logger logger = LogManager.getLogger(Comment.class);
-    private static String COMMENT_BASE_PATH = util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_COMMENT");
+    private static String COMMENT_BASE_PATH = PropertiesUtil.loadProperties(PropertiesUtil.APPLICATIONS).getProperty("BASEPATH_COMMENT");
 
     Comment(){
         super();
@@ -43,7 +43,7 @@ class Comment extends RestExecutor {
     @Step("Validate Format for Email : {0}")
     boolean validateEmailFormat(String sEmail) {
         logger.debug("-- validateEmailFormat() --");
-        return util_Basic.regExPatternMatcher(sEmail,"^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+        return BasicUtil.regExPatternMatcher(sEmail,"^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
     }
 
 

@@ -1,11 +1,11 @@
-package com.typicode.jsonPlaceHolder;
+package com.typicode.jsonplaceholder.apis;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import restAssured.RestExecutor;
-import util.util_Properties;
+import com.typicode.jsonplaceholder.rest.RestExecutor;
+import com.typicode.jsonplaceholder.util.PropertiesUtil;
 import java.util.List;
 
 class Post extends RestExecutor {
@@ -17,7 +17,7 @@ class Post extends RestExecutor {
     private static final String POST_BODY = "body";
 
     private static Logger logger = LogManager.getLogger(Post.class);
-    private static String POST_BASE_PATH = util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_POST");
+    private static String POST_BASE_PATH = PropertiesUtil.loadProperties(PropertiesUtil.APPLICATIONS).getProperty("BASEPATH_POST");
 
     Post(){
         super();

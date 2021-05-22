@@ -1,11 +1,12 @@
-package com.typicode.jsonPlaceHolder;
+package com.typicode.jsonplaceholder.apis;
 
+import com.typicode.jsonplaceholder.util.ResourcesUtil;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import restAssured.RestExecutor;
-import util.util_Properties;
+import com.typicode.jsonplaceholder.rest.RestExecutor;
+import com.typicode.jsonplaceholder.util.PropertiesUtil;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ class User extends RestExecutor {
     final String USER_COMPANY = "company";
 
     private static Logger logger = LogManager.getLogger(User.class);
-    private static String USER_BASE_PATH = util_Properties.loadProperties(util_Properties.APPLICATIONS).getProperty("BASEPATH_USER");
+    private static String USER_BASE_PATH = PropertiesUtil.loadProperties(PropertiesUtil.APPLICATIONS).getProperty("BASEPATH_USER");
 
     User(){
         super();
@@ -60,9 +61,10 @@ class User extends RestExecutor {
     }
 
     @Step("Add User with UserName {0}")
-    Response addUser(String sUserName){
+    Response addUser(String sUserName) {
         logger.debug("-- addUser() --");
-        requestSpecBuilder.setBody(new File(getDataPath(Collections.singletonList("User")) +sUserName +defaultDataFileType));
+        String sResourceFile = new File(getDataPath(Collections.singletonList("User")) +sUserName +defaultDataFileType).toString();
+        requestSpecBuilder.setBody(ResourcesUtil.getResourceAsString(sResourceFile));
         return executeRequest(requestSpecBuilder.build(), "POST");
     }
 
@@ -71,6 +73,14 @@ class User extends RestExecutor {
         logger.debug("-- deleteUser() --");
         requestSpecBuilder.setBasePath(USER_BASE_PATH +sUserId);
         return executeRequest(requestSpecBuilder.build(), "DELETE");
+    }
+
+    @Step("Validate Website : {0}")
+    Response validateWebsite(String sUserName){
+        logger.debug("-- validateWebsite() --");
+        requestSpecBuilder.setBaseUri("http://"+extractUserAttribute(USER_WEBSITE, fetchUserDetails(USER_USERNAME, sUserName)).get(0));
+        requestSpecBuilder.setBasePath("");
+        return executeRequest(requestSpecBuilder.build(), "GET");
     }
 
 }

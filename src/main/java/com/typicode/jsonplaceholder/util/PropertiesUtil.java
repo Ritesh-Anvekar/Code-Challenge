@@ -1,4 +1,4 @@
-package util;
+package com.typicode.jsonplaceholder.util;
 
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
-public class util_Properties {
+public class PropertiesUtil {
 
-    private static Logger logger = LogManager.getLogger(util_Properties.class);
+    private static Logger logger = LogManager.getLogger(PropertiesUtil.class);
     public static final String APPLICATIONS = "application.properties";
     public static final String RESOURCES = "resource.properties";
 
-    public util_Properties(){
+    public PropertiesUtil(){
         //constr
     }
 
@@ -25,7 +25,8 @@ public class util_Properties {
         try{
             properties.load(url.openStream());
         } catch (IOException IOx) {
-            logger.info("Unable to load property file ! \n" + IOx.getMessage());
+            logger.debug("Unable to load property file ! \n" + IOx.getMessage());
+            throw new ExceptionUtil(IOx.getCause());
         }
         return properties;
     }
